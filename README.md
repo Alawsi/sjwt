@@ -4,10 +4,13 @@
 **2 - The tool enables you to guess more than 100,000 secret keys in about 5 seconds.**
 
 
-
 ## Overview
 
 **Sjwt** is a Python script designed to perform a brute-force attack on a JWT (JSON Web Token) to discover its secret key. It uses a provided wordlist of potential keys and attempts to decode the JWT with each key until it finds a match or exhausts the wordlist.
+
+## Screenshot :
+![Screenshot](https://github.com/Alawsi/sjwt/blob/main/Screenshot%202024-09-13%20234016.png?raw=true)
+
 
 ## Requirements
 
