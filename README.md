@@ -1,7 +1,7 @@
 # Sjwt
 **1 - brute-force attack on a JWT (JSON Web Token) to discover its secret key**
 
-**2 - The tool enables you to guess more than 100,000 secret keys in about 13 seconds.**
+**2 - The tool enables you to guess more than 100,000 secret keys in about 5 seconds.**
 
 
 
