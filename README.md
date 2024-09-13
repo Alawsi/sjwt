@@ -1,4 +1,4 @@
-# Sjwt
+# Sjwt (secret key JWT) | jwt-cracker | brute-force JWT
 **1 - brute-force attack on a JWT (JSON Web Token) to discover its secret key**
 
 **2 - The tool enables you to guess more than 100,000 secret keys in about 5 seconds.**
@@ -7,7 +7,7 @@
 
 ## Overview
 
-Sjwt is a Python script designed to perform a brute-force attack on a JWT (JSON Web Token) to discover its secret key. It uses a provided wordlist of potential keys and attempts to decode the JWT with each key until it finds a match or exhausts the wordlist.
+**Sjwt** is a Python script designed to perform a brute-force attack on a JWT (JSON Web Token) to discover its secret key. It uses a provided wordlist of potential keys and attempts to decode the JWT with each key until it finds a match or exhausts the wordlist.
 
 ## Requirements
 
@@ -36,16 +36,9 @@ Sjwt is a Python script designed to perform a brute-force attack on a JWT (JSON 
    On **Other Operating Systems** (Linux/MacOS):
    - Clone the repository:
      ```bash
-     git clone <repository-url>
-     cd <repository-directory>
-     ```
-   - Install the dependencies (if not already installed):
-     ```bash
-     pip install PyJWT
-     ```
-   - Run the script:
-     ```bash
+     git clone https://github.com/Alawsi/sjwt.git
+     cd sjwt
      python sjwt.py
-     ```
+     
    - Follow the prompts as described above.
 
