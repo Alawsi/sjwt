@@ -21,8 +21,11 @@
 ## Usage
 
 1. **Prepare Your Wordlist:**
-   - Ensure you have a `wordlist.txt` file containing more than 100,000 common secret keys. You can edit this file to add more keys if needed.
+   - When you download the tool, a file `wordlist.txt` will be downloaded, which contains more than 100,00 secret keys.
+   - You can change the file as you like and add more, but keep the file name `wordlist.txt`
+  
 
+    
 2. **Run the Script:**
 
    On **Windows**:
