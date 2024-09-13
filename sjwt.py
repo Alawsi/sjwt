@@ -59,7 +59,7 @@ if __name__ == "__main__":
         install_missing_library('PyJWT')
         sys.exit(1)
 
-    encoded_jwt = input("Enter your JWT:").strip()
+    encoded_jwt = input("\nEnter your JWT:").strip()
     if not encoded_jwt:
         print('Error: JWT input is required and cannot be left empty.')
     else:
