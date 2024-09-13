@@ -63,6 +63,6 @@ if __name__ == "__main__":
     if not encoded_jwt:
         print('Error: JWT input is required and cannot be left empty.')
     else:
-        print('wait..\n')
+        print('\nwait...\n')
         wordlist_path = 'wordlist.txt'
         brute_force_jwt_secret(encoded_jwt, wordlist_path)
