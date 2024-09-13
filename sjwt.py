@@ -1,3 +1,4 @@
+#by t.me/awsi5
 import os
 import subprocess
 import sys
@@ -15,19 +16,14 @@ def install_missing_library(library_name):
             subprocess.check_call([sys.executable, "-m", "pip", "install", library_name])
             print(f"{library_name} installed successfully. Running the tool now...\n")
         except subprocess.CalledProcessError:
-            print(f"Failed to install {library_name}. Please install it manually by running 'pip install {library_name}'.")
+            print(f"Failed to install {library_name}.")
             sys.exit(1)
-    else:
-        print("Please install the required library and rerun the program.")
-        sys.exit(1)
 
-try:
-    import jwt
-    from jwt.exceptions import InvalidTokenError, DecodeError
-except ModuleNotFoundError:
-    install_missing_library('PyJWT')
-    import jwt
-    from jwt.exceptions import InvalidTokenError, DecodeError
+def print_loading_bar(iteration, total, bar_length=40):
+    filled_length = int(bar_length * iteration // total)
+    bar = '█' * filled_length + '-' * (bar_length - filled_length)
+    sys.stdout.write(f'\r[{bar}] Attempt {iteration}/{total}')
+    sys.stdout.flush()
 
 def brute_force_jwt_secret(token, wordlist_path):
     if not os.path.exists(wordlist_path):
@@ -39,27 +35,34 @@ def brute_force_jwt_secret(token, wordlist_path):
 
     def try_key(secret_key):
         try:
-            jwt.decode(token, secret_key, algorithms=["HS256"])
+            decode(token, secret_key, algorithms=["HS256"])
             return f"Success! The secret key is: {secret_key}"
         except (InvalidTokenError, DecodeError):
             return None
 
+    total_words = len(wordlist)
+    
     with ThreadPoolExecutor() as executor:
-        results = list(executor.map(try_key, wordlist))
-
-    for count, result in enumerate(results, 1):
-        if result:
-            print(f"\n\n{count} - {result}")
-            return
-        else:
-            print(f"{count} - Failed attempt with key: {wordlist[count-1]}")
-
-    print("Brute force failed. No valid key found.")
+        futures = [executor.submit(try_key, key) for key in wordlist]
+        for count, future in enumerate(futures, 1):
+            result = future.result()
+            print_loading_bar(count, total_words)
+            if result:
+                print(f"\n\n{result}")
+                return
+        print("\nBrute force failed. No valid key found.")
 
 if __name__ == "__main__":
-    encoded_jwt = input("Enter your JWT: ").strip()
+    try:
+        from jwt import decode, InvalidTokenError, DecodeError
+    except ImportError:
+        install_missing_library('PyJWT')
+        sys.exit(1)
+
+    encoded_jwt = input("Enter your JWT:").strip()
     if not encoded_jwt:
         print('Error: JWT input is required and cannot be left empty.')
     else:
+        print('wait..\n')
         wordlist_path = 'wordlist.txt'
         brute_force_jwt_secret(encoded_jwt, wordlist_path)
