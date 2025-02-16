@@ -49,6 +49,8 @@ foo
 some-secret-password
 test value
 password
+your-512-bit-secret
+your-384-bit-secret
 jwt-secret
 jwtsecret
 JWTs are the best!
