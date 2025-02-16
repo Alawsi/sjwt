@@ -1,8 +1,18 @@
-# Sjwt (secret key JWT) | jwt-cracker | brute-force JWT
-**1 - brute-force attack on a JWT (JSON Web Token) to discover its secret key**
+<h1>Sjwt (secret key JWT) | jwt-cracker | brute-force JWT</h1>
 
-**2 - The tool enables you to guess more than 100,000 secret keys in about 5 seconds.**
+###
 
+<h4 align="left">1 - brute-force attack on a JWT (JSON Web Token) to discover its secret key<br><br>2 - The tool enables you to guess more than 100,000 secret keys in about 5 seconds.</h4>
+
+###
+
+<h2 align="left">Supports brute force attack on these algorithms only :</h2>
+
+###
+
+<h3 align="left">- HS256 <br>- HS384<br>- HS512</h3>
+
+###
 
 ## Overview
 
