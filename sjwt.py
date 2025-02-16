@@ -2,6 +2,8 @@
 import os
 import subprocess
 import sys
+import base64
+import json
 from concurrent.futures import ThreadPoolExecutor
 
 def install_missing_library(library_name):
@@ -25,7 +27,7 @@ def print_loading_bar(iteration, total, bar_length=40):
     sys.stdout.write(f'\r[{bar}] Attempt {iteration}/{total}')
     sys.stdout.flush()
 
-def brute_force_jwt_secret(token, wordlist_path):
+def brute_force_jwt_secret(token, wordlist_path,algorithm):
     if not os.path.exists(wordlist_path):
         print(f"Wordlist file '{wordlist_path}' not found. Make sure the file exists.")
         return
@@ -35,7 +37,7 @@ def brute_force_jwt_secret(token, wordlist_path):
 
     def try_key(secret_key):
         try:
-            decode(token, secret_key, algorithms=["HS256"])
+            decode(token, secret_key, algorithms=algorithm)
             return f"Success! The secret key is: {secret_key}"
         except (InvalidTokenError, DecodeError):
             return None
@@ -59,10 +61,26 @@ if __name__ == "__main__":
         install_missing_library('PyJWT')
         sys.exit(1)
 
-    encoded_jwt = input("\nEnter your JWT:").strip()
+    encoded_jwt = input("\nEnter your JWT: ").strip()
+
     if not encoded_jwt:
         print('Error: JWT input is required and cannot be left empty.')
-    else:
-        print('\nwait...\n')
+        sys.exit(1)
+
+    if len(encoded_jwt.split('.')) != 3:
+        print('Error: This is not a valid JWT.')
+        sys.exit(1)
+
+    try:
+        header = json.loads(base64.urlsafe_b64decode(encoded_jwt.split('.')[0] + '==='))
+        algorithm = header.get('alg', '')
+        if algorithm not in ['HS256', 'HS384', 'HS512']:
+            print(f'\nAlgorithm "{algorithm}" is not supported.')
+            sys.exit(1)
+
+        print('\nWait...\n')
         wordlist_path = 'wordlist.txt'
-        brute_force_jwt_secret(encoded_jwt, wordlist_path)
+        brute_force_jwt_secret(encoded_jwt, wordlist_path,algorithm)
+
+    except Exception as error:
+        print(f"An error occurred: {error}")
