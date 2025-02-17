@@ -54,6 +54,8 @@ def brute_force_jwt_secret(token, wordlist_path,algorithm):
                 return
         print("\nBrute force failed. No valid key found.")
 
+# ... (previous code)
+
 if __name__ == "__main__":
     try:
         from jwt import decode, InvalidTokenError, DecodeError
@@ -72,7 +74,15 @@ if __name__ == "__main__":
         sys.exit(1)
 
     try:
-        header = json.loads(base64.urlsafe_b64decode(encoded_jwt.split('.')[0] + '==='))
+        header_encoded = encoded_jwt.split('.')[0]
+        remainder = len(header_encoded) % 4
+        if remainder == 2:
+            header_encoded += '=='
+        elif remainder == 3:
+            header_encoded += '='
+
+        # Decode header
+        header = json.loads(base64.urlsafe_b64decode(header_encoded))
         algorithm = header.get('alg', '')
         if algorithm not in ['HS256', 'HS384', 'HS512']:
             print(f'\nAlgorithm "{algorithm}" is not supported.')
@@ -80,7 +90,7 @@ if __name__ == "__main__":
 
         print('\nWait...\n')
         wordlist_path = 'wordlist.txt'
-        brute_force_jwt_secret(encoded_jwt, wordlist_path,algorithm)
+        brute_force_jwt_secret(encoded_jwt, wordlist_path, algorithm)
 
     except Exception as error:
         print(f"An error occurred: {error}")
